@@ -11,25 +11,31 @@ import {
   Dimensions,
 } from 'react-native';
 
+import {MatchesContext} from '../matches-context';
+
 import Message from '../components/Message';
 
 const Messages = () => {
   return (
-    <ImageBackground source={require('../assets/images/bg.png')} style={styles.bg}>
-      <View style={styles.containerMessages}>
-        <ScrollView>
-          <FlatList
-            data={Demo}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({item}) => (
-              <TouchableOpacity>
-                <Message image={item.image} name={item.name} lastMessage={item.message} />
-              </TouchableOpacity>
-            )}
-          />
-        </ScrollView>
-      </View>
-    </ImageBackground>
+    <MatchesContext.Consumer>
+      {({matches}) => (
+        <ImageBackground source={require('../assets/images/bg.png')} style={styles.bg}>
+          <View style={styles.containerMessages}>
+            <ScrollView>
+              <FlatList
+                data={matches}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item}) => (
+                  <TouchableOpacity>
+                    <Message image={item.image} name={item.name} lastMessage={item.message} />
+                  </TouchableOpacity>
+                )}
+              />
+            </ScrollView>
+          </View>
+        </ImageBackground>
+      )}
+    </MatchesContext.Consumer>
   );
 };
 
