@@ -10,7 +10,7 @@ class Bouncer extends PureComponent {
     super(props);
     this.bottom = new Animated.Value(this.props.height);
     this.rotationValue = new Animated.Value(0);
-    this.scale = new Animated.Value(0);
+    this.scale = new Animated.Value(1);
 
     this.rotate = this.rotationValue.interpolate({
       inputRange: [0, 360],
@@ -21,7 +21,7 @@ class Bouncer extends PureComponent {
     };
   }
 
-  animateBounce = () => {
+  animateVerticalOffset = () =>
     Animated.sequence([
       Animated.timing(this.bottom, {
         toValue: -VERTICAL_OFFSET,
@@ -33,21 +33,34 @@ class Bouncer extends PureComponent {
         duration: BOUNCE_DURATION / 2,
         useNativeDriver: true,
       }),
-    ]).start();
-    this.scale.setValue(1);
+    ]);
+
+  animateRotation = () =>
+    Animated.timing(this.rotationValue, {
+      toValue: 360 * ROTATIONS,
+      useNativeDriver: true,
+      duration: BOUNCE_DURATION,
+    });
+
+  animateScale = () =>
     Animated.timing(this.scale, {
       toValue: 0,
       duration: BOUNCE_DURATION / 2,
       delay: BOUNCE_DURATION / 2,
       useNativeDriver: true,
-    }).start();
+    });
 
-    Animated.timing(this.rotationValue, {
-      toValue: 360 * ROTATIONS,
-      useNativeDriver: true,
-      duration: BOUNCE_DURATION,
-    }).start(() => this.rotationValue.setValue(0));
+  resetToDefault = () => {
+    this.scale.setValue(1);
+    this.rotationValue.setValue(0);
   };
+
+  animateBounce = () =>
+    Animated.parallel([
+      this.animateVerticalOffset(),
+      this.animateRotation(),
+      this.animateScale(),
+    ]).start(this.resetToDefault);
 
   bounce = () => {
     const randomLeftOffset = Math.random() * Dimensions.get('window').width;
@@ -61,15 +74,9 @@ class Bouncer extends PureComponent {
         bottom: 0,
         left: this.state.leftOffset,
       },
-      {transform: [{translateY: this.bottom}, {scale: this.scale}]},
+      {transform: [{translateY: this.bottom}, {scale: this.scale}, {rotate: this.rotate}]},
     ];
-    return (
-      <Animated.View style={style}>
-        <Animated.View style={[{transform: [{rotate: this.rotate}]}]}>
-          {this.props.children}
-        </Animated.View>
-      </Animated.View>
-    );
+    return <Animated.View style={style}>{this.props.children}</Animated.View>;
   }
 }
 
