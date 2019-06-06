@@ -5,7 +5,6 @@ import {StackActions} from 'react-navigation';
 import {ScrollView, View, Text, TouchableOpacity, ImageBackground, FlatList} from 'react-native';
 import CardItem from '../components/CardItem';
 import Icon from '../components/Icon';
-import Demo from '../assets/data/demo.js';
 
 const openProfile = (item, props) => () => {
   const pushAction = StackActions.push({

@@ -13,7 +13,6 @@ import {
 
 import Message from '../components/Message';
 import Icon from '../components/Icon';
-import Demo from '../assets/data/demo.js';
 
 const Messages = () => {
   return (

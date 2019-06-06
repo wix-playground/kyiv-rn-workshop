@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import ProfileItem from '../components/ProfileItem';
 import Icon from '../components/Icon';
-import Demo from '../assets/data/demo.js';
 
 const Profile = ({navigation}) => {
   const {
@@ -29,7 +28,7 @@ const Profile = ({navigation}) => {
   return (
     <ImageBackground source={require('../assets/images/bg.png')} style={styles.bg}>
       <ScrollView style={styles.containerProfile}>
-        <ImageBackground source={image} style={styles.photo}>
+        <ImageBackground source={{uri: image}} style={styles.photo}>
           <View style={styles.top}>
             <TouchableOpacity />
 
@@ -73,7 +72,7 @@ const Profile = ({navigation}) => {
 
 const WHITE = '#FFFFFF';
 const PRIMARY_COLOR = '#7444C0';
-const SECONDARY_COLOR = "#5636B8";
+const SECONDARY_COLOR = '#5636B8';
 const DIMENSION_WIDTH = Dimensions.get('window').width;
 const DIMENSION_HEIGHT = Dimensions.get('window').height;
 const ICON_FONT = 'tinderclone';
@@ -119,15 +118,15 @@ const styles = StyleSheet.create({
   },
   iconButton: {fontFamily: ICON_FONT, fontSize: 20, color: WHITE},
   roundedButton: {
-		justifyContent: "center",
-		flexDirection: "row",
-		alignItems: "center",
-		marginLeft: 10,
-		height: 50,
-		borderRadius: 25,
-		backgroundColor: SECONDARY_COLOR,
-		paddingHorizontal: 20
-	},
+    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 10,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: SECONDARY_COLOR,
+    paddingHorizontal: 20,
+  },
   textButton: {
     fontFamily: ICON_FONT,
     fontSize: 15,
