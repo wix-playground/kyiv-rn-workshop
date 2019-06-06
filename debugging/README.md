@@ -16,7 +16,38 @@ open rndebugger://set-debugger-loc?port=19001
 ### Debugging JS
 
 
-Default development:
+Production:
+
+```
+
++------------------------------+
+|                              |
+|            Mobile            |
+|                              |
+|                              |
+| +--------------------------+ |
+| |                          | |
+| |     Native               | |
+| |                          | |
+| |       ^                  | |
+| |       |                  | |
+| |       |                  | |
+| |       |   Instructions   | |
+| |       |                  | |
+| |       |                  | |
+| |       v                  | |
+| |                          | |
+| |    JS Engine             | |
+| |                          | |
+| |    (bundle.js)           | |
+| |                          | |
+| +--------------------------+ |
+|                              |
++------------------------------+
+
+```
+
+Default development mode:
 
 ```
 
