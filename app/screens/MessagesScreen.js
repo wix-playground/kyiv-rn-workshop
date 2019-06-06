@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 
 import Message from '../components/Message';
-import Icon from '../components/Icon';
 
 const Messages = () => {
   return (

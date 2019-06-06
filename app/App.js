@@ -2,11 +2,20 @@ import React from 'react';
 import {Platform, StatusBar, StyleSheet, View} from 'react-native';
 import {AppLoading, Asset, Font, Icon} from 'expo';
 import AppNavigator from './navigation/AppNavigator';
+import {MatchesContext} from './matches-context';
 
 export default class App extends React.Component {
-  state = {
-    isLoadingComplete: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoadingComplete: false,
+      matches: [],
+      newMatch: (match) => {
+        this.setState({matches: [...this.state.matches, match]});
+      },
+    };
+  }
 
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
@@ -19,10 +28,14 @@ export default class App extends React.Component {
       );
     } else {
       return (
-        <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />
-        </View>
+        <MatchesContext.Provider
+          value={{matches: this.state.matches, newMatch: this.state.newMatch}}
+        >
+          <View style={styles.container}>
+            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            <AppNavigator />
+          </View>
+        </MatchesContext.Provider>
       );
     }
   }

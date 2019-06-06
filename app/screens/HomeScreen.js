@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {View, Text, ImageBackground, StyleSheet, Dimensions, ActivityIndicator} from 'react-native';
+import {View, Text, ImageBackground, Dimensions, StyleSheet, ActivityIndicator} from 'react-native';
 import CardStack, {Card} from 'react-native-card-stack-swiper';
 import City from '../components/City';
 import Filters from '../components/Filters';
@@ -7,14 +7,15 @@ import CardItem from '../components/CardItem';
 import Bouncer from '../components/Bouncer';
 import Heart from '../components/Heart';
 
+import {MatchesContext} from '../matches-context';
 import {fetchUsers} from '../api';
-
-const bouncer = React.createRef();
-const bounce = () => bouncer.current.bounce();
 
 class Home extends Component {
   constructor(props) {
     super(props);
+
+    this.bouncer = React.createRef();
+    this.bounce = () => this.bouncer.current.bounce();
 
     this.state = {users: [], loading: false, errorMessage: ''};
   }
@@ -39,10 +40,10 @@ class Home extends Component {
             </View>
             {this.renderContent()}
           </View>
-          <Bouncer ref={bouncer} height={50}>
-            <Heart size={50} />
-          </Bouncer>
         </ImageBackground>
+        <Bouncer ref={this.bouncer} height={50}>
+          <Heart size={50} />
+        </Bouncer>
       </Fragment>
     );
   }
@@ -60,28 +61,32 @@ class Home extends Component {
   renderUsers = () => {
     const {users} = this.state;
     return (
-      <CardStack
-        loop={true}
-        verticalSwipe={false}
-        renderNoMoreCards={() => null}
-        ref={(swiper) => (this.swiper = swiper)}
-        onSwipedRight={bounce}
-        onSwipedLeft={bounce}
-      >
-        {users.map((item, index) => (
-          <Card key={index}>
-            <CardItem
-              image={item.image}
-              name={item.name}
-              description={item.description}
-              matches={item.match}
-              actions
-              onPressLeft={() => this.swiper.swipeLeft()}
-              onPressRight={() => this.swiper.swipeRight()}
-            />
-          </Card>
-        ))}
-      </CardStack>
+      <MatchesContext.Consumer>
+        {({newMatch}) => (
+          <CardStack
+            loop={true}
+            verticalSwipe={false}
+            renderNoMoreCards={() => null}
+            onSwipedRight={this.bounce}
+            onSwipedLeft={this.bounce}
+            ref={(swiper) => (this.swiper = swiper)}
+          >
+            {users.map((item, index) => (
+              <Card key={index} onSwipedLeft={() => newMatch(item)}>
+                <CardItem
+                  image={item.image}
+                  name={item.name}
+                  description={item.description}
+                  matches={item.match}
+                  actions
+                  onPressLeft={() => this.swiper.swipeLeft()}
+                  onPressRight={() => this.swiper.swipeRight()}
+                />
+              </Card>
+            ))}
+          </CardStack>
+        )}
+      </MatchesContext.Consumer>
     );
   };
 

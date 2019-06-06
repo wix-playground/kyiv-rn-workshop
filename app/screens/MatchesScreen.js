@@ -4,7 +4,7 @@ import {StackActions} from 'react-navigation';
 
 import {ScrollView, View, Text, TouchableOpacity, ImageBackground, FlatList} from 'react-native';
 import CardItem from '../components/CardItem';
-import Icon from '../components/Icon';
+import {MatchesContext} from '../matches-context';
 
 const openProfile = (item, props) => () => {
   const pushAction = StackActions.push({
@@ -18,22 +18,26 @@ const openProfile = (item, props) => () => {
 
 const Matches = (props) => {
   return (
-    <ImageBackground source={require('../assets/images/bg.png')} style={styles.bg}>
-      <View style={styles.containerMatches}>
-        <ScrollView>
-          <FlatList
-            numColumns={2}
-            data={Demo}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({item}) => (
-              <TouchableOpacity onPress={openProfile(item, props)}>
-                <CardItem image={item.image} name={item.name} status={item.status} variant />
-              </TouchableOpacity>
-            )}
-          />
-        </ScrollView>
-      </View>
-    </ImageBackground>
+    <MatchesContext.Consumer>
+      {({matches}) => (
+        <ImageBackground source={require('../assets/images/bg.png')} style={styles.bg}>
+          <View style={styles.containerMatches}>
+            <ScrollView>
+              <FlatList
+                numColumns={2}
+                data={matches}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item}) => (
+                  <TouchableOpacity onPress={openProfile(item, props)}>
+                    <CardItem image={item.image} name={item.name} status={item.status} variant />
+                  </TouchableOpacity>
+                )}
+              />
+            </ScrollView>
+          </View>
+        </ImageBackground>
+      )}
+    </MatchesContext.Consumer>
   );
 };
 
