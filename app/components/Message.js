@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {StyleSheet, Dimensions} from 'react-native';
 
 import {Text, View, Image} from 'react-native';
@@ -40,5 +41,11 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
 });
+
+Message.propTypes = {
+  image: PropTypes.string.isRequired,
+  lastMessage: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+};
 
 export default Message;
