@@ -3,7 +3,7 @@ import {StyleSheet, Dimensions} from 'react-native';
 import {StackActions} from 'react-navigation';
 
 import {ScrollView, View, Text, TouchableOpacity, ImageBackground, FlatList} from 'react-native';
-import CardItem from '../components/CardItem';
+import CardItemSmall from '../components/CardItemSmall';
 import {MatchesContext} from '../matches-context';
 
 const openProfile = (item, props) => () => {
@@ -29,7 +29,7 @@ const Matches = (props) => {
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item}) => (
                   <TouchableOpacity onPress={openProfile(item, props)}>
-                    <CardItem image={item.image} name={item.name} status={item.status} variant />
+                    <CardItemSmall image={item.image} name={item.name} status={item.status} />
                   </TouchableOpacity>
                 )}
               />

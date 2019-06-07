@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const iconsList = {
   heart: '&#xe800;',
@@ -25,6 +26,10 @@ const Icon = ({name}) => {
   icon = String.fromCharCode(parseInt(icon, 16));
 
   return icon;
+};
+
+Icon.propTypes = {
+  name: PropTypes.oneOf(Object.keys(iconsList)).isRequired,
 };
 
 export default Icon;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import {Text, View, StyleSheet, Dimensions} from 'react-native';
 import Icon from './Icon';
@@ -113,5 +114,16 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
 });
+
+ProfileItem.propTypes = {
+  age: PropTypes.string,
+  info1: PropTypes.string,
+  info2: PropTypes.string,
+  info3: PropTypes.string,
+  info4: PropTypes.string,
+  location: PropTypes.string,
+  matches: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+};
 
 export default ProfileItem;

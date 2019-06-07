@@ -1,11 +1,17 @@
 import React, {PureComponent} from 'react';
 import {Animated, Dimensions} from 'react-native';
+import PropTypes from 'prop-types';
 
 const BOUNCE_DURATION = 800;
 const ROTATIONS = 2;
 const VERTICAL_OFFSET = 200;
 
 class Bouncer extends PureComponent {
+
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+  }
+
   constructor(props) {
     super(props);
     this.bottom = new Animated.Value(this.props.height);
