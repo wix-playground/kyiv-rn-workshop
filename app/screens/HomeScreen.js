@@ -78,7 +78,6 @@ class Home extends Component {
                   name={item.name}
                   description={item.description}
                   matches={item.match}
-                  actions
                   onPressLeft={() => this.swiper.swipeLeft()}
                   onPressRight={() => this.swiper.swipeRight()}
                 />
