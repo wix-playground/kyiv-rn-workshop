@@ -22,27 +22,39 @@ MatchesScreen.navigationOptions = {
   title: 'Matches',
 };
 
-// TODO: [Navigation] 1. Uncomment to add MatchesScreen
+const MatchesStack = createStackNavigator({
+  Matches: MatchesScreen,
+  Profile: ProfileScreen,
+});
 
-// const MatchesStack = createStackNavigator({
-//   Matches: MatchesScreen,
-//   Profile: ProfileScreen,
-// });
-//
-// MatchesStack.navigationOptions = {
-//   tabBarLabel: 'Matches',
-//   tabBarIcon: ({focused}) => <TabBarIcon focused={focused} name="heart" />,
-// };
+MatchesStack.navigationOptions = {
+  tabBarLabel: 'Matches',
+  tabBarIcon: ({focused}) => <TabBarIcon focused={focused} name="heart" />,
+};
 
-// TODO: [Navigation] 2. Add messages stack and navigationOptions
-// TODO: [Navigation] 3. Add settings stack and navigationOptions
+const MessagesStack = createStackNavigator({
+  Messages: MessagesScreen,
+});
+
+MessagesStack.navigationOptions = {
+  tabBarLabel: 'Messages',
+  tabBarIcon: ({focused}) => <TabBarIcon focused={focused} name="chat" />,
+};
+
+const SettingsStack = createStackNavigator({
+  Settings: SettingsScreen,
+});
+
+SettingsStack.navigationOptions = {
+  tabBarLabel: 'Settings',
+  tabBarIcon: ({focused}) => (
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+  ),
+};
 
 export default createBottomTabNavigator({
   HomeScreen,
-
-  // TODO: [Navigation] 1. Uncomment to add MatchesScreen
-  // MatchesStack,
-
-  // TODO: [Navigation] 2. Add messages stack and navigationOptions
-  // TODO: [Navigation] 3. Add settings stack and navigationOptions
+  MatchesStack,
+  MessagesStack,
+  SettingsStack,
 });
