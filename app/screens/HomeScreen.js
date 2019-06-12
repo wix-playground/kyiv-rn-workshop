@@ -34,12 +34,10 @@ class Home extends Component {
         <ImageBackground source={require('../assets/images/bg.png')} style={styles.bg}>
           <View style={styles.containerHome}>
 
-            {/*// TODO: [Layout && Views] 1. Uncomment the next block to see City/Filters  */}
-
-            {/*<View style={styles.top}>*/}
-            {/*  <City />*/}
-            {/*  <Filters />*/}
-            {/*</View>*/}
+            <View style={styles.top}>
+              <City />
+              <Filters />
+            </View>
 
             {this.renderContent()}
           </View>
@@ -64,34 +62,30 @@ class Home extends Component {
   renderUsers = () => {
     const {users} = this.state;
 
-    // TODO: [Layout && Views] 2. Remove the next line and uncomment the following block with CardStack
-
-    return null;
-
-    // return (
-    //   <CardStack
-    //     loop={true}
-    //     verticalSwipe={false}
-    //     renderNoMoreCards={() => null}
-    //     onSwipedRight={this.bounce}
-    //     onSwipedLeft={this.bounce}
-    //     ref={(swiper) => (this.swiper = swiper)}
-    //   >
-    //     {users.map((item, index) => (
-    //       <Card key={index}>
-    //         <CardItem
-    //           image={item.image}
-    //           name={item.name}
-    //           description={item.description}
-    //           matches={item.match}
-    //           actions
-    //           onPressLeft={() => this.swiper.swipeLeft()}
-    //           onPressRight={() => this.swiper.swipeRight()}
-    //         />
-    //       </Card>
-    //     ))}
-    //   </CardStack>
-    // );
+    return (
+      <CardStack
+        loop={true}
+        verticalSwipe={false}
+        renderNoMoreCards={() => null}
+        onSwipedRight={this.bounce}
+        onSwipedLeft={this.bounce}
+        ref={(swiper) => (this.swiper = swiper)}
+      >
+        {users.map((item, index) => (
+          <Card key={index}>
+            <CardItem
+              image={item.image}
+              name={item.name}
+              description={item.description}
+              matches={item.match}
+              actions
+              onPressLeft={() => this.swiper.swipeLeft()}
+              onPressRight={() => this.swiper.swipeRight()}
+            />
+          </Card>
+        ))}
+      </CardStack>
+    );
   };
 
   renderLoading = () => {
@@ -124,16 +118,15 @@ const styles = StyleSheet.create({
     height: DIMENSION_HEIGHT,
   },
   top: {
-    // TODO: [Layout && Views] 3. Place Filter and City Buttons near left/right display borders
-
-    // https://facebook.github.io/react-native/docs/flexbox
-
-    // HINT: you can use these styles (paddingTop, marginHorizontal, flexDirection, justifyContent, alignItems)
+    paddingTop: 50,
+    marginHorizontal: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   containerHome: {
-    // TODO: [Layout && Views] 4. Center the card container
-
-    // HINT: you can use these styles (marginHorizontal, flex)
+    flex: 1,
+    marginHorizontal: 10,
   },
   requestStatusContainer: {
     justifyContent: 'center',

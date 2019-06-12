@@ -114,9 +114,10 @@ const styles = StyleSheet.create({
   },
   matchesCardItem: {
     backgroundColor: PRIMARY_COLOR,
-
-    // TODO: [Layout && Views] 5. Make Matches with the round border. Place  Matches under the picture
-    // HINT: you can use these styles (marginTop, paddingVertical, paddingHorizontal, borderRadius)
+    marginTop: -35,
+    paddingVertical: 7,
+    paddingHorizontal: 20,
+    borderRadius: 20,
   },
   matchesTextCardItem: {
     fontFamily: ICON_FONT,
