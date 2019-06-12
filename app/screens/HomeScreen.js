@@ -1,198 +1,145 @@
-import * as WebBrowser from 'expo-web-browser';
-import React from 'react';
-import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, {Component, Fragment} from 'react';
+import {View, Text, ImageBackground, Dimensions, StyleSheet, ActivityIndicator} from 'react-native';
+import CardStack, {Card} from 'react-native-card-stack-swiper';
+import City from '../components/City';
+import Filters from '../components/Filters';
+import CardItem from '../components/CardItem';
+import Bouncer from '../components/Bouncer';
+import Heart from '../components/Heart';
 
-import { MonoText } from '../components/StyledText';
+import {fetchUsers} from '../api';
 
-export default function HomeScreen() {
-  return (
-    <View style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}>
-        <View style={styles.welcomeContainer}>
-          <Image
-            source={
-              __DEV__
-                ? require('../assets/images/robot-dev.png')
-                : require('../assets/images/robot-prod.png')
-            }
-            style={styles.welcomeImage}
-          />
-        </View>
+class Home extends Component {
+  constructor(props) {
+    super(props);
 
-        <View style={styles.getStartedContainer}>
-          <DevelopmentModeNotice />
+    this.bouncer = React.createRef();
+    this.bounce = () => this.bouncer.current.bounce();
 
-          <Text style={styles.getStartedText}>Get started by opening</Text>
+    this.state = {users: [], loading: false, errorMessage: ''};
+  }
 
-          <View
-            style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-            <MonoText>screens/HomeScreen.js</MonoText>
+  async componentDidMount() {
+    this.setState({loading: true});
+    fetchUsers()
+      .then((users) => this.setState({users, loading: false}))
+      .catch((err) => {
+        this.setState({errorMessage: err.message, loading: false});
+      });
+  }
+
+  render() {
+    return (
+      <Fragment>
+        <ImageBackground source={require('../assets/images/bg.png')} style={styles.bg}>
+          <View style={styles.containerHome}>
+
+            {/*// TODO: [Layout && Views] 1. Uncomment the next block to see City/Filters  */}
+
+            {/*<View style={styles.top}>*/}
+            {/*  <City />*/}
+            {/*  <Filters />*/}
+            {/*</View>*/}
+
+            {this.renderContent()}
           </View>
-
-          <Text style={styles.getStartedText}>
-            Change this text and your app will automatically reload.
-          </Text>
-        </View>
-
-        <View style={styles.helpContainer}>
-          <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-            <Text style={styles.helpLinkText}>
-              Help, it didn’t automatically reload!
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-
-      <View style={styles.tabBarInfoContainer}>
-        <Text style={styles.tabBarInfoText}>
-          This is a tab bar. You can edit it in:
-        </Text>
-
-        <View
-          style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-          <MonoText style={styles.codeHighlightText}>
-            navigation/MainTabNavigator.js
-          </MonoText>
-        </View>
-      </View>
-    </View>
-  );
-}
-
-HomeScreen.navigationOptions = {
-  header: null,
-};
-
-function DevelopmentModeNotice() {
-  if (__DEV__) {
-    const learnMoreButton = (
-      <Text onPress={handleLearnMorePress} style={styles.helpLinkText}>
-        Learn more
-      </Text>
-    );
-
-    return (
-      <Text style={styles.developmentModeText}>
-        Development mode is enabled: your app will be slower but you can use
-        useful development tools. {learnMoreButton}
-      </Text>
-    );
-  } else {
-    return (
-      <Text style={styles.developmentModeText}>
-        You are not in development mode: your app will run at full speed.
-      </Text>
+        </ImageBackground>
+        <Bouncer ref={this.bouncer} height={50}>
+          <Heart size={50} />
+        </Bouncer>
+      </Fragment>
     );
   }
+
+  renderContent = () => {
+    const {loading, errorMessage} = this.state;
+    if (loading) {
+      return this.renderLoading();
+    } else if (errorMessage) {
+      return this.renderError();
+    }
+    return this.renderUsers();
+  };
+
+  renderUsers = () => {
+    const {users} = this.state;
+
+    // TODO: [Layout && Views] 2. Remove the next line and uncomment the following block with CardStack
+
+    return null;
+
+    // return (
+    //   <CardStack
+    //     loop={true}
+    //     verticalSwipe={false}
+    //     renderNoMoreCards={() => null}
+    //     onSwipedRight={this.bounce}
+    //     onSwipedLeft={this.bounce}
+    //     ref={(swiper) => (this.swiper = swiper)}
+    //   >
+    //     {users.map((item, index) => (
+    //       <Card key={index}>
+    //         <CardItem
+    //           image={item.image}
+    //           name={item.name}
+    //           description={item.description}
+    //           matches={item.match}
+    //           actions
+    //           onPressLeft={() => this.swiper.swipeLeft()}
+    //           onPressRight={() => this.swiper.swipeRight()}
+    //         />
+    //       </Card>
+    //     ))}
+    //   </CardStack>
+    // );
+  };
+
+  renderLoading = () => {
+    const {loading} = this.state;
+    return (
+      <View style={styles.requestStatusContainer}>
+        <ActivityIndicator animating={loading} size="large" />
+      </View>
+    );
+  };
+
+  renderError = () => {
+    const {errorMessage} = this.state;
+    return (
+      <View style={styles.requestStatusContainer}>
+        <Text>{errorMessage}</Text>
+      </View>
+    );
+  };
 }
 
-function handleLearnMorePress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/workflow/development-mode/'
-  );
-}
-
-function handleHelpPress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/workflow/up-and-running/#cant-see-your-changes'
-  );
-}
+const DIMENSION_WIDTH = Dimensions.get('window').width;
+const DIMENSION_HEIGHT = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
-  container: {
+  bg: {
     flex: 1,
-    backgroundColor: '#fff',
+    resizeMode: 'cover',
+    width: DIMENSION_WIDTH,
+    height: DIMENSION_HEIGHT,
   },
-  developmentModeText: {
-    marginBottom: 20,
-    color: 'rgba(0,0,0,0.4)',
-    fontSize: 14,
-    lineHeight: 19,
-    textAlign: 'center',
+  top: {
+    // TODO: [Layout && Views] 3. Place Filter and City Buttons near left/right display borders
+
+    // https://facebook.github.io/react-native/docs/flexbox
+
+    // HINT: you can use these styles (paddingTop, marginHorizontal, flexDirection, justifyContent, alignItems)
   },
-  contentContainer: {
-    paddingTop: 30,
+  containerHome: {
+    // TODO: [Layout && Views] 4. Center the card container
+
+    // HINT: you can use these styles (marginHorizontal, flex)
   },
-  welcomeContainer: {
+  requestStatusContainer: {
+    justifyContent: 'center',
+    flex: 1,
     alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
-  },
-  welcomeImage: {
-    width: 100,
-    height: 80,
-    resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
-  },
-  getStartedContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
-  },
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-  codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)',
-  },
-  codeHighlightContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  getStartedText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
-    textAlign: 'center',
-  },
-  tabBarInfoContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { width: 0, height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
-  },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
-  },
-  navigationFilename: {
-    marginTop: 5,
-  },
-  helpContainer: {
-    marginTop: 15,
-    alignItems: 'center',
-  },
-  helpLink: {
-    paddingVertical: 15,
-  },
-  helpLinkText: {
-    fontSize: 14,
-    color: '#2e78b7',
   },
 });
+
+export default Home;
