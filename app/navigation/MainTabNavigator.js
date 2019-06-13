@@ -8,10 +8,16 @@ import MatchesScreen from '../screens/MatchesScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import MessagesScreen from '../screens/MessagesScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import DemoScreen from '../screens/DemoScreen';
 
 HomeScreen.navigationOptions = {
   tabBarLabel: 'Home',
   tabBarIcon: ({focused}) => <TabBarIcon focused={focused} name="explore" />,
+};
+
+DemoScreen.navigationOptions = {
+  tabBarLabel: 'Demo',
+  tabBarIcon: ({focused}) => <TabBarIcon focused={focused} name="star" />,
 };
 
 MessagesScreen.navigationOptions = {
@@ -57,4 +63,5 @@ export default createBottomTabNavigator({
   MatchesStack,
   MessagesStack,
   SettingsStack,
+  DemoScreen,
 });
