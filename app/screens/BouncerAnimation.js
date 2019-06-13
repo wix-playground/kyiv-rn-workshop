@@ -2,9 +2,7 @@ import React, {PureComponent} from 'react';
 import {Animated, Dimensions} from 'react-native';
 
 class BouncerAnimation extends PureComponent {
-  state = {
-    leftOffset: 0,
-  };
+  state = {leftOffset: 0};
 
   bottom = new Animated.Value(50);
 
@@ -21,7 +19,6 @@ class BouncerAnimation extends PureComponent {
         useNativeDriver: true,
       }),
     ]);
-
 
 
   //TODO: [Animation] 1. Rotational Animation
