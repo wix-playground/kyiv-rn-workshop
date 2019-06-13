@@ -24,7 +24,7 @@ class BouncerAnimation extends PureComponent {
     leftOffset: 0,
   };
 
-  //TODO: [Animation] Rotational Animation
+  //TODO: [Animation] 1. Rotational Animation
   // rotationValue = new Animated.Value(0);
   //
   // rotate = this.rotationValue.interpolate({
@@ -40,7 +40,7 @@ class BouncerAnimation extends PureComponent {
   //   });
 
 
-  //TODO: [Animation] Scale Animation
+  //TODO: [Animation] 2. Scale Animation
   // scale = new Animated.Value(1);
   //
   // animateScale = () =>
@@ -53,10 +53,10 @@ class BouncerAnimation extends PureComponent {
 
 
   resetToDefault = () => {
-    //TODO: [Animation] Rotational Animation
+    //TODO: [Animation] 1. Rotational Animation
     // this.rotationValue.setValue(0);
 
-    //TODO: [Animation] Scale Animation
+    //TODO: [Animation] 2. Scale Animation
     // this.scale.setValue(1);
 
   };
@@ -65,10 +65,10 @@ class BouncerAnimation extends PureComponent {
     Animated.parallel([
       this.animateVerticalOffset(),
 
-      //TODO: [Animation] Rotational Animation
+      //TODO: [Animation] 1. Rotational Animation
       // this.animateRotation(),
 
-      //TODO: [Animation] Scale Animation
+      //TODO: [Animation] 2. Scale Animation
       // this.animateScale(),
     ]).start(this.resetToDefault);
 
@@ -87,10 +87,10 @@ class BouncerAnimation extends PureComponent {
       {
         transform: [
           {translateY: this.bottom},
-          //TODO: [Animation] Rotational Animation
+          //TODO: [Animation] 1. Rotational Animation
           // {rotate: this.rotate},
 
-          //TODO: [Animation] Scale Animation
+          //TODO: [Animation] 2. Scale Animation
           // {scale: this.scale},
         ],
       },
