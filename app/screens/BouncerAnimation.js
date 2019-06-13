@@ -36,7 +36,7 @@ class BouncerAnimation extends PureComponent {
   //   Animated.timing(this.rotationValue, {
   //     toValue: 360 * 2,
   //     useNativeDriver: true,
-  //     duration: BOUNCE_DURATION,
+  //     duration: 800,
   //   });
 
 
@@ -46,8 +46,8 @@ class BouncerAnimation extends PureComponent {
   // animateScale = () =>
   //   Animated.timing(this.scale, {
   //     toValue: 0,
-  //     duration: BOUNCE_DURATION / 2,
-  //     delay: BOUNCE_DURATION / 2,
+  //     duration: 400,
+  //     delay: 400,
   //     useNativeDriver: true,
   //   });
 
