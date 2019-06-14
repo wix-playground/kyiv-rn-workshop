@@ -7,6 +7,7 @@ import CardItem from '../components/CardItem';
 import Bouncer from '../components/Bouncer';
 import Heart from '../components/Heart';
 
+import {MatchesContext} from '../matches-context';
 import {fetchUsers} from '../api';
 
 class Home extends Component {
@@ -33,12 +34,10 @@ class Home extends Component {
       <Fragment>
         <ImageBackground source={require('../assets/images/bg.png')} style={styles.bg}>
           <View style={styles.containerHome}>
-
             <View style={styles.top}>
               <City />
               <Filters />
             </View>
-
             {this.renderContent()}
           </View>
         </ImageBackground>
@@ -61,30 +60,32 @@ class Home extends Component {
 
   renderUsers = () => {
     const {users} = this.state;
-
     return (
-      <CardStack
-        loop={true}
-        verticalSwipe={false}
-        renderNoMoreCards={() => null}
-        onSwipedRight={this.bounce}
-        onSwipedLeft={this.bounce}
-        ref={(swiper) => (this.swiper = swiper)}
-      >
-        {users.map((item, index) => (
-          <Card key={index}>
-            <CardItem
-              image={item.image}
-              name={item.name}
-              description={item.description}
-              matches={item.match}
-              actions
-              onPressLeft={() => this.swiper.swipeLeft()}
-              onPressRight={() => this.swiper.swipeRight()}
-            />
-          </Card>
-        ))}
-      </CardStack>
+      <MatchesContext.Consumer>
+        {({newMatch}) => (
+          <CardStack
+            loop={true}
+            verticalSwipe={false}
+            renderNoMoreCards={() => null}
+            onSwipedRight={this.bounce}
+            onSwipedLeft={this.bounce}
+            ref={(swiper) => (this.swiper = swiper)}
+          >
+            {users.map((item, index) => (
+              <Card key={index} onSwipedLeft={() => newMatch(item)}>
+                <CardItem
+                  image={item.image}
+                  name={item.name}
+                  description={item.description}
+                  matches={item.match}
+                  onPressLeft={() => this.swiper.swipeLeft()}
+                  onPressRight={() => this.swiper.swipeRight()}
+                />
+              </Card>
+            ))}
+          </CardStack>
+        )}
+      </MatchesContext.Consumer>
     );
   };
 
